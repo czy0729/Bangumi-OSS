@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-17 21:10:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-18 09:51:41
+ * @Last Modified time: 2020-01-18 16:33:46
  */
 const fs = require('fs')
 const path = require('path')
@@ -21,7 +21,7 @@ function findJsonFile(path) {
     )
   )
 }
-findJsonFile('../Bangumi-Subject/ids/anime-rank.json')
+findJsonFile('../Bangumi-Subject/ids/real-rank.json')
 // console.log(filePaths)
 
 const covers = Array.from(
@@ -35,6 +35,10 @@ const covers = Array.from(
 
 async function downloadImage(image) {
   return new Promise((resolve, reject) => {
+    if (image === 'undefined') {
+      return resolve(true)
+    }
+
     const hash = utils.hash(`https:${image}`)
     const filePath = `./data/subject/${quality}/${hash
       .slice(0, 1)
@@ -45,6 +49,9 @@ async function downloadImage(image) {
     }
 
     const src = `http:${image}`
+    console.log(
+      `- write ${image} [${covers.indexOf(image)} / ${covers.length}]`
+    )
     http.get(src, (req, res) => {
       let imgData = ''
       req.setEncoding('binary')
@@ -55,9 +62,6 @@ async function downloadImage(image) {
           fs.mkdirSync(dirPath)
         }
 
-        console.log(
-          `- write ${image} [${covers.indexOf(image)} / ${covers.length}]`
-        )
         fs.writeFileSync(filePath, imgData, 'binary', err => {
           if (err) console.log('- error ${image}')
         })
@@ -69,4 +73,4 @@ async function downloadImage(image) {
 }
 
 const fetchs = covers.map(item => () => downloadImage(item))
-utils.queue(fetchs, 10)
+utils.queue(fetchs, 8)
