@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-17 21:10:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-18 11:34:25
+ * @Last Modified time: 2020-01-18 14:39:38
  */
 const fs = require('fs')
 const path = require('path')
@@ -29,11 +29,7 @@ findJsonFile('../Bangumi-Rakuen/data/topic')
 // console.log(filePaths)
 
 const avatars = Array.from(
-  new Set(
-    filePaths
-      .map(item => JSON.parse(fs.readFileSync(item)).avatar)
-      .filter(item => item !== '//lain.bgm.tv/pic/user/m/icon.jpg')
-  )
+  new Set(filePaths.map(item => JSON.parse(fs.readFileSync(item)).avatar))
 )
 // console.log(avatars)
 
