@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-17 21:10:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-18 16:33:46
+ * @Last Modified time: 2020-01-18 17:40:08
  */
 const fs = require('fs')
 const path = require('path')
@@ -21,7 +21,7 @@ function findJsonFile(path) {
     )
   )
 }
-findJsonFile('../Bangumi-Subject/ids/real-rank.json')
+findJsonFile('../Bangumi-Subject/ids/book-rank.json')
 // console.log(filePaths)
 
 const covers = Array.from(
@@ -73,4 +73,4 @@ async function downloadImage(image) {
 }
 
 const fetchs = covers.map(item => () => downloadImage(item))
-utils.queue(fetchs, 8)
+utils.queue(fetchs, 4)
