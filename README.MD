@@ -1,21 +1,13 @@
+## Bangumi 对象存储
+
+[![](https://data.jsdelivr.com/v1/package/gh/czy0729/Bangumi-OSS/badge)](https://www.jsdelivr.com/package/gh/czy0729/Bangumi-OSS)
+
+服务于 [Bangumi-App](https://github.com/czy0729/Bangumi).
+
 ### 使用方法
 
-```
-https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Subject@latest/data/${parseInt(parseInt(subjectId) / 100)}/${subjectId}.json
-```
+[待补充]
 
-### 例如
+### 自动更新 js 脚本
 
-subjectId 为 289173 访问地址为
-
-```
-https://cdn.jsdelivr.net/gh/czy0729/Bangumi-Subject@latest/data/2891/289173.json
-```
-
-```
-avatar: //lain.bgm.tv/pic/user
-```
-
-### 结构描述
-
-待补充
+[待补充]
