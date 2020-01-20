@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-17 21:10:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-18 15:05:11
+ * @Last Modified time: 2020-01-20 17:53:24
  */
 const fs = require('fs')
 const path = require('path')
@@ -20,19 +20,24 @@ function findJsonFile(path) {
     if (stat.isDirectory() === true) {
       findJsonFile(fPath)
     }
-    if (stat.isFile() === true) {
+    if (stat.isFile() === true && !fPath.includes('.DS_Store')) {
       filePaths.push(fPath)
     }
   })
 }
-// findJsonFile('../Bangumi-Rakuen/data/topic')
 
+/**
+ * Topic
+ */
+// findJsonFile('../Bangumi-Rakuen/data/topic')
 // const avatars = Array.from(
 //   new Set(filePaths.map(item => JSON.parse(fs.readFileSync(item)).avatar))
 // )
 
+/**
+ * Comment
+ */
 findJsonFile('../Bangumi-Rakuen/data/comment')
-
 const temp = []
 filePaths.forEach(item => {
   const data = JSON.parse(fs.readFileSync(item))
