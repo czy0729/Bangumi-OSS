@@ -88,9 +88,9 @@ const CDN_OSS_SUBJECT = src => {
 
 ```
 CDN_OSS_SUBJECT('https://lain.bgm.tv/pic/cover/c/73/90/285776_57c5p.jpg')
-
-// => https://cdn.jsdelivr.net/gh/czy0729/Bangumi-OSS@master/data/subject/c/a/AMC5E.jpg
 ```
+
+得到 https://cdn.jsdelivr.net/gh/czy0729/Bangumi-OSS@master/data/subject/c/a/AMC5E.jpg
 
 #### 用户头像暂只爬取了 /m/ 的质量
 
@@ -143,9 +143,9 @@ const CDN_OSS_AVATAR = src => {
 
 ```
 CDN_OSS_AVATAR('https://lain.bgm.tv/pic/user/m/000/45/62/456208.jpg')
-
-// => https://cdn.jsdelivr.net/gh/czy0729/Bangumi-OSS@master/data/avatar/m/q/qbfGEB.jpg
 ```
+
+得到 https://cdn.jsdelivr.net/gh/czy0729/Bangumi-OSS@master/data/avatar/m/q/qbfGEB.jpg
 
 ### 关于 HASH
 
