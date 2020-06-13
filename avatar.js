@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-17 21:10:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-04-14 14:44:12
+ * @Last Modified time: 2020-06-14 02:06:28
  */
 const fs = require('fs')
 const path = require('path')
@@ -10,7 +10,7 @@ const join = require('path').join
 const http = require('http')
 const utils = require('./utils/utils')
 
-const quality = 'm'
+const quality = 'l'
 
 const filePaths = []
 function findJsonFile(path) {
@@ -29,30 +29,30 @@ function findJsonFile(path) {
 /**
  * Topic
  */
-findJsonFile('../Bangumi-Rakuen/data/topic')
-const avatars = Array.from(
-  new Set(filePaths.map((item) => JSON.parse(fs.readFileSync(item)).avatar))
-)
+// findJsonFile('../Bangumi-Rakuen/data/topic')
+// const avatars = Array.from(
+//   new Set(filePaths.map((item) => JSON.parse(fs.readFileSync(item)).avatar))
+// )
 
 /**
  * Comment
  */
-// findJsonFile('../Bangumi-Rakuen/data/comment')
-// const temp = []
-// filePaths.forEach((item) => {
-//   const data = JSON.parse(fs.readFileSync(item))
-//   data.forEach((item) => {
-//     if (item.avatar) {
-//       temp.push(item.avatar)
-//     }
-//     item.sub.forEach((i) => {
-//       if (i.avatar) {
-//         temp.push(i.avatar)
-//       }
-//     })
-//   })
-// })
-// const avatars = Array.from(new Set(temp))
+findJsonFile('../Bangumi-Rakuen/data/comment')
+const temp = []
+filePaths.forEach((item) => {
+  const data = JSON.parse(fs.readFileSync(item))
+  data.forEach((item) => {
+    if (item.avatar) {
+      temp.push(item.avatar)
+    }
+    item.sub.forEach((i) => {
+      if (i.avatar) {
+        temp.push(i.avatar)
+      }
+    })
+  })
+})
+const avatars = Array.from(new Set(temp))
 
 async function downloadAvatar(avatar) {
   return new Promise((resolve, reject) => {
@@ -65,7 +65,7 @@ async function downloadAvatar(avatar) {
       return resolve(true)
     }
 
-    const src = `http:${avatar}`
+    const src = `http:${avatar}`.replace('/m/', '/l/')
     http.get(src, (req, res) => {
       let imgData = ''
       req.setEncoding('binary')
@@ -77,7 +77,7 @@ async function downloadAvatar(avatar) {
         }
 
         console.log(
-          `- write ${avatar} [${avatars.indexOf(avatar)} / ${avatars.length}]`
+          `- write ${src} [${avatars.indexOf(avatar)} / ${avatars.length}]`
         )
         fs.writeFileSync(filePath, imgData, 'binary', (err) => {
           if (err) console.log('- error ${avatar}')
@@ -90,4 +90,4 @@ async function downloadAvatar(avatar) {
 }
 
 const fetchs = avatars.map((item) => () => downloadAvatar(item))
-utils.queue(fetchs, 2)
+utils.queue(fetchs, 48)
