@@ -2,12 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-01-14 19:30:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-01-26 18:02:18
+ * @Last Modified time: 2020-06-14 15:11:12
  */
 const cheerioRN = require('cheerio-without-node-native')
 
 function safeObject(object = {}) {
-  Object.keys(object).forEach(key => {
+  Object.keys(object).forEach((key) => {
     if (object[key] === undefined) {
       // eslint-disable-next-line no-param-reassign
       object[key] = ''
@@ -128,6 +128,10 @@ function hash(input) {
   return retValue
 }
 
+function sleep(ms = 800) {
+  return new Promise((resolve) => setTimeout(resolve, ms))
+}
+
 module.exports = {
   safeObject,
   getCoverSmall,
@@ -140,5 +144,6 @@ module.exports = {
   smallImage,
   HTMLTrim,
   trim,
-  hash
+  hash,
+  sleep,
 }
