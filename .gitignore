@@ -8,6 +8,8 @@ bangumi.jks
 bangumi.mobileprovision
 data/omit/
 dist/
+data/subject/l-origin/
+data/subject/l-update/
 iPhoneDistribution.p12
 ios/
 node_modules
