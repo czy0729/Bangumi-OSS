@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-17 21:10:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-15 13:40:03
+ * @Last Modified time: 2020-06-15 21:13:59
  */
 const fs = require('fs')
 const path = require('path')
@@ -29,40 +29,40 @@ function findJsonFile(path) {
 /**
  * Topic
  */
-findJsonFile('../Bangumi-Rakuen/data/topic')
-const avatars = Array.from(
-  new Set(filePaths.map((item) => JSON.parse(fs.readFileSync(item)).avatar))
-)
+// findJsonFile('../Bangumi-Rakuen/data/topic')
+// const avatars = Array.from(
+//   new Set(filePaths.map((item) => JSON.parse(fs.readFileSync(item)).avatar))
+// )
 
 /**
  * Comment
  */
-// findJsonFile('../Bangumi-Rakuen/data/comment')
-// const temp = []
-// filePaths.forEach((item) => {
-//   const data = JSON.parse(fs.readFileSync(item))
-//   data.forEach((item) => {
-//     if (item.avatar) {
-//       temp.push(item.avatar)
-//     }
-//     item.sub.forEach((i) => {
-//       if (i.avatar) {
-//         temp.push(i.avatar)
-//       }
-//     })
-//   })
-// })
-// const avatars = Array.from(new Set(temp))
+findJsonFile('../Bangumi-Rakuen/data/comment')
+const temp = []
+filePaths.forEach((item) => {
+  const data = JSON.parse(fs.readFileSync(item))
+  data.forEach((item) => {
+    if (item.avatar) {
+      temp.push(item.avatar)
+    }
+    item.sub.forEach((i) => {
+      if (i.avatar) {
+        temp.push(i.avatar)
+      }
+    })
+  })
+})
+const avatars = Array.from(new Set(temp))
 
 async function downloadAvatar(avatar) {
-  return new Promise((resolve, reject) => {
+  try {
     const hash = utils.hash(`https:${avatar}`)
     const filePath = `./data/avatar/${quality}/${hash
       .slice(0, 1)
       .toLowerCase()}/${hash}.jpg`
     if (fs.existsSync(filePath)) {
-      console.log(`- skip ${avatar}`)
-      return resolve(true)
+      // console.log(`- skip ${avatar}`)
+      return true
     }
 
     const src = `http:${avatar}`.replace('/m/', '/l/')
@@ -83,10 +83,12 @@ async function downloadAvatar(avatar) {
           if (err) console.log('- error ${avatar}')
         })
 
-        resolve(true)
+        return true
       })
     })
-  })
+  } catch (error) {
+    return downloadAvatar(avatar)
+  }
 }
 
 const fetchs = avatars.map((item) => () => downloadAvatar(item))
