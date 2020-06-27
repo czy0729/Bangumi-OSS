@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-17 21:10:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-15 21:13:59
+ * @Last Modified time: 2020-06-27 14:48:30
  */
 const fs = require('fs')
 const path = require('path')
@@ -57,7 +57,7 @@ const avatars = Array.from(new Set(temp))
 async function downloadAvatar(avatar) {
   try {
     const hash = utils.hash(`https:${avatar}`)
-    const filePath = `./data/avatar/${quality}/${hash
+    const filePath = `./data/avatar/m/${hash
       .slice(0, 1)
       .toLowerCase()}/${hash}.jpg`
     if (fs.existsSync(filePath)) {
@@ -66,7 +66,7 @@ async function downloadAvatar(avatar) {
     }
 
     const src = `http:${avatar}`.replace('/m/', '/l/')
-    http.get(src, (req, res) => {
+    http.get(`${src}?r=${utils.getTimestamp()}`, (req, res) => {
       let imgData = ''
       req.setEncoding('binary')
       req.on('data', (chunk) => (imgData += chunk))
