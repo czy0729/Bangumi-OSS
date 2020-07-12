@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-17 21:10:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-27 14:48:30
+ * @Last Modified time: 2020-07-12 20:51:24
  */
 const fs = require('fs')
 const path = require('path')
@@ -29,30 +29,30 @@ function findJsonFile(path) {
 /**
  * Topic
  */
-// findJsonFile('../Bangumi-Rakuen/data/topic')
-// const avatars = Array.from(
-//   new Set(filePaths.map((item) => JSON.parse(fs.readFileSync(item)).avatar))
-// )
+findJsonFile('../Bangumi-Rakuen/data/topic')
+const avatars = Array.from(
+  new Set(filePaths.map((item) => JSON.parse(fs.readFileSync(item)).avatar))
+)
 
 /**
  * Comment
  */
-findJsonFile('../Bangumi-Rakuen/data/comment')
-const temp = []
-filePaths.forEach((item) => {
-  const data = JSON.parse(fs.readFileSync(item))
-  data.forEach((item) => {
-    if (item.avatar) {
-      temp.push(item.avatar)
-    }
-    item.sub.forEach((i) => {
-      if (i.avatar) {
-        temp.push(i.avatar)
-      }
-    })
-  })
-})
-const avatars = Array.from(new Set(temp))
+// findJsonFile('../Bangumi-Rakuen/data/comment')
+// const temp = []
+// filePaths.forEach((item) => {
+//   const data = JSON.parse(fs.readFileSync(item))
+//   data.forEach((item) => {
+//     if (item.avatar) {
+//       temp.push(item.avatar)
+//     }
+//     item.sub.forEach((i) => {
+//       if (i.avatar) {
+//         temp.push(i.avatar)
+//       }
+//     })
+//   })
+// })
+// const avatars = Array.from(new Set(temp))
 
 async function downloadAvatar(avatar) {
   try {
@@ -65,7 +65,7 @@ async function downloadAvatar(avatar) {
       return true
     }
 
-    const src = `http:${avatar}`.replace('/m/', '/l/')
+    const src = `http:${avatar}`.replace('/m/', `/${quality}/`)
     http.get(`${src}?r=${utils.getTimestamp()}`, (req, res) => {
       let imgData = ''
       req.setEncoding('binary')
