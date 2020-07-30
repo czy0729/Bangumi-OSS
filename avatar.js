@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-17 21:10:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-12 20:51:24
+ * @Last Modified time: 2020-07-30 22:14:25
  */
 const fs = require('fs')
 const path = require('path')
@@ -57,7 +57,7 @@ const avatars = Array.from(
 async function downloadAvatar(avatar) {
   try {
     const hash = utils.hash(`https:${avatar}`)
-    const filePath = `./data/avatar/m/${hash
+    const filePath = `./data/avatar/l/${hash
       .slice(0, 1)
       .toLowerCase()}/${hash}.jpg`
     if (fs.existsSync(filePath)) {
