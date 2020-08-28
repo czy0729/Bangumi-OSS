@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-17 21:10:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-07-30 22:14:25
+ * @Last Modified time: 2020-08-28 17:51:27
  */
 const fs = require('fs')
 const path = require('path')
@@ -54,19 +54,18 @@ const avatars = Array.from(
 // })
 // const avatars = Array.from(new Set(temp))
 
-async function downloadAvatar(avatar) {
-  try {
-    const hash = utils.hash(`https:${avatar}`)
-    const filePath = `./data/avatar/l/${hash
-      .slice(0, 1)
-      .toLowerCase()}/${hash}.jpg`
-    if (fs.existsSync(filePath)) {
-      // console.log(`- skip ${avatar}`)
-      return true
-    }
+async function downloadAvatar(avatar, rewrite) {
+  const hash = utils.hash(`https:${avatar}`)
+  const filePath = `./data/avatar/l/${hash
+    .slice(0, 1)
+    .toLowerCase()}/${hash}.jpg`
+  if (!rewrite && fs.existsSync(filePath)) {
+    return true
+  }
 
-    const src = `http:${avatar}`.replace('/m/', `/${quality}/`)
-    http.get(`${src}?r=${utils.getTimestamp()}`, (req, res) => {
+  const src = `http:${avatar}`.replace('/m/', `/${quality}/`)
+  http
+    .get(`${src}?r=${utils.getTimestamp()}`, (req, res) => {
       let imgData = ''
       req.setEncoding('binary')
       req.on('data', (chunk) => (imgData += chunk))
@@ -86,10 +85,10 @@ async function downloadAvatar(avatar) {
         return true
       })
     })
-  } catch (error) {
-    return downloadAvatar(avatar)
-  }
+    .on('error', (error) => {
+      return downloadAvatar(avatar, true)
+    })
 }
 
 const fetchs = avatars.map((item) => () => downloadAvatar(item))
-utils.queue(fetchs, 48)
+utils.queue(fetchs, 24)
