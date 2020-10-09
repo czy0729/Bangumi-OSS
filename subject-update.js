@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-17 21:10:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-15 19:50:39
+ * @Last Modified time: 2020-10-08 19:22:24
  */
 const fs = require('fs')
 const path = require('path')
@@ -10,7 +10,7 @@ const join = require('path').join
 const http = require('http')
 const utils = require('./utils/utils')
 
-const ids = 'real-rank'
+const ids = 'wk8'
 
 const filePaths = []
 function findJsonFile(path) {
@@ -38,7 +38,7 @@ async function downloadImage(image) {
     }
 
     const hash = utils.hash(`https:${image}`)
-    const filePath = `./data/subject/l-origin/${hash
+    const filePath = `./data/subject/c/${hash
       .slice(0, 1)
       .toLowerCase()}/${hash}.jpg`
     if (
@@ -56,7 +56,7 @@ async function downloadImage(image) {
       req.setEncoding('binary')
       req.on('data', (chunk) => (imgData += chunk))
       req.on('end', () => {
-        const newFilePath = filePath.replace('/l-origin/', /l-update/)
+        const newFilePath = filePath.replace('/c/', /l-update/)
         const dirPath = path.dirname(newFilePath)
         if (!fs.existsSync(dirPath)) {
           fs.mkdirSync(dirPath)
