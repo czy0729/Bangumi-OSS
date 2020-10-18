@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-18 11:37:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-09 13:57:07
+ * @Last Modified time: 2020-10-11 14:21:32
  */
 const fs = require('fs')
 const path = require('path')
@@ -36,4 +36,4 @@ filePaths
   })
 
 const filePath = './hash/subject.json'
-fs.writeFileSync(filePath, JSON.stringify(hashMap, null, 2))
+fs.writeFileSync(filePath, JSON.stringify(hashMap))
