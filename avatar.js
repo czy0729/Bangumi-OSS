@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-17 21:10:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-18 20:03:21
+ * @Last Modified time: 2020-11-07 22:03:07
  */
 const fs = require('fs')
 const path = require('path')
@@ -40,17 +40,19 @@ const avatars = Array.from(
 // findJsonFile('../Bangumi-Rakuen/data/comment')
 // const temp = []
 // filePaths.forEach((item) => {
-//   const data = JSON.parse(fs.readFileSync(item))
-//   data.forEach((item) => {
-//     if (item.avatar) {
-//       temp.push(item.avatar)
-//     }
-//     item.sub.forEach((i) => {
-//       if (i.avatar) {
-//         temp.push(i.avatar)
+//   try {
+//     const data = JSON.parse(fs.readFileSync(item))
+//     data.forEach((item) => {
+//       if (item.avatar) {
+//         temp.push(item.avatar)
 //       }
+//       item.sub.forEach((i) => {
+//         if (i.avatar) {
+//           temp.push(i.avatar)
+//         }
+//       })
 //     })
-//   })
+//   } catch (error) {}
 // })
 // const avatars = Array.from(new Set(temp))
 
