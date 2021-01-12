@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-17 21:10:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-13 04:11:38
+ * @Last Modified time: 2021-01-12 17:40:59
  */
 const fs = require('fs')
 const path = require('path')
@@ -21,32 +21,33 @@ function findJsonFile(path) {
     )
   )
 }
-findJsonFile('../Bangumi-Subject/ids/agefans.json')
-findJsonFile('../Bangumi-Subject/ids/anime-2020.json')
-findJsonFile('../Bangumi-Subject/ids/anime-2021.json')
-findJsonFile('../Bangumi-Subject/ids/anime-bangumi-data.json')
-findJsonFile('../Bangumi-Subject/ids/anime-rank.json')
-findJsonFile('../Bangumi-Subject/ids/book-2020.json')
-findJsonFile('../Bangumi-Subject/ids/book-2021.json')
-findJsonFile('../Bangumi-Subject/ids/book-rank.json')
-findJsonFile('../Bangumi-Subject/ids/game-2020.json')
-findJsonFile('../Bangumi-Subject/ids/game-2021.json')
-findJsonFile('../Bangumi-Subject/ids/game-rank.json')
-findJsonFile('../Bangumi-Subject/ids/music-2020.json')
-findJsonFile('../Bangumi-Subject/ids/music-2021.json')
-findJsonFile('../Bangumi-Subject/ids/music-rank.json')
-findJsonFile('../Bangumi-Subject/ids/real-2020.json')
-findJsonFile('../Bangumi-Subject/ids/real-2021.json')
-findJsonFile('../Bangumi-Subject/ids/real-rank.json')
-findJsonFile('../Bangumi-Subject/ids/wk8-series.json')
-findJsonFile('../Bangumi-Subject/ids/wk8.json')
+// findJsonFile('../Bangumi-Subject/ids/agefans.json')
+// findJsonFile('../Bangumi-Subject/ids/anime-2020.json')
+// findJsonFile('../Bangumi-Subject/ids/anime-2021.json')
+// findJsonFile('../Bangumi-Subject/ids/anime-bangumi-data.json')
+// findJsonFile('../Bangumi-Subject/ids/anime-rank.json')
+// findJsonFile('../Bangumi-Subject/ids/book-2020.json')
+// findJsonFile('../Bangumi-Subject/ids/book-2021.json')
+// findJsonFile('../Bangumi-Subject/ids/book-rank.json')
+// findJsonFile('../Bangumi-Subject/ids/game-2020.json')
+// findJsonFile('../Bangumi-Subject/ids/game-2021.json')
+// findJsonFile('../Bangumi-Subject/ids/game-rank.json')
+// findJsonFile('../Bangumi-Subject/ids/music-2020.json')
+// findJsonFile('../Bangumi-Subject/ids/music-2021.json')
+// findJsonFile('../Bangumi-Subject/ids/music-rank.json')
+// findJsonFile('../Bangumi-Subject/ids/real-2020.json')
+// findJsonFile('../Bangumi-Subject/ids/real-2021.json')
+// findJsonFile('../Bangumi-Subject/ids/real-rank.json')
+// findJsonFile('../Bangumi-Subject/ids/wk8-series.json')
+// findJsonFile('../Bangumi-Subject/ids/wk8.json')
+findJsonFile('../Bangumi-Subject/ids/manga.json')
 
 const covers = Array.from(
   new Set(
     filePaths.map((item) => {
       try {
         return String(JSON.parse(fs.readFileSync(item)).image).replace(
-          '/m/',
+          /\/(g|s|m|c|l)\//,
           '/c/'
         )
       } catch (ex) {
