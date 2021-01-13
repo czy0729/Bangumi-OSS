@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-17 21:10:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-12-13 21:43:25
+ * @Last Modified time: 2021-01-13 10:12:09
  */
 const fs = require('fs')
 const path = require('path')
@@ -95,4 +95,4 @@ async function downloadAvatar(avatar, rewrite) {
 }
 
 const fetchs = avatars.map((item) => () => downloadAvatar(item))
-utils.queue(fetchs, 24)
+utils.queue(fetchs, 12)
