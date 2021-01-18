@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-18 11:37:34
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-13 10:54:26
+ * @Last Modified time: 2021-01-14 16:59:23
  */
 const fs = require('fs')
 const path = require('path')
@@ -36,4 +36,5 @@ filePaths
   })
 
 const filePath = './hash/avatar.json'
-fs.writeFileSync(filePath, Object.keys(hashMap).join(','))
+fs.writeFileSync(filePath, JSON.stringify(hashMap))
+// fs.writeFileSync(filePath, Object.keys(hashMap).join(','))
