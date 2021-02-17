@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-17 21:10:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-01-12 17:40:59
+ * @Last Modified time: 2021-02-17 19:26:01
  */
 const fs = require('fs')
 const path = require('path')
@@ -23,7 +23,7 @@ function findJsonFile(path) {
 }
 // findJsonFile('../Bangumi-Subject/ids/agefans.json')
 // findJsonFile('../Bangumi-Subject/ids/anime-2020.json')
-// findJsonFile('../Bangumi-Subject/ids/anime-2021.json')
+findJsonFile('../Bangumi-Subject/ids/anime-2021.json')
 // findJsonFile('../Bangumi-Subject/ids/anime-bangumi-data.json')
 // findJsonFile('../Bangumi-Subject/ids/anime-rank.json')
 // findJsonFile('../Bangumi-Subject/ids/book-2020.json')
@@ -40,7 +40,7 @@ function findJsonFile(path) {
 // findJsonFile('../Bangumi-Subject/ids/real-rank.json')
 // findJsonFile('../Bangumi-Subject/ids/wk8-series.json')
 // findJsonFile('../Bangumi-Subject/ids/wk8.json')
-findJsonFile('../Bangumi-Subject/ids/manga.json')
+// findJsonFile('../Bangumi-Subject/ids/manga.json')
 
 const covers = Array.from(
   new Set(
