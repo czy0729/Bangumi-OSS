@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-17 21:10:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-10-08 19:22:24
+ * @Last Modified time: 2021-04-17 03:15:21
  */
 const fs = require('fs')
 const path = require('path')
@@ -10,7 +10,7 @@ const join = require('path').join
 const http = require('http')
 const utils = require('./utils/utils')
 
-const ids = 'wk8'
+const ids = 'anime-bangumi-data'
 
 const filePaths = []
 function findJsonFile(path) {
@@ -25,9 +25,16 @@ findJsonFile(`../Bangumi-Subject/ids/${ids}.json`)
 
 const covers = Array.from(
   new Set(
-    filePaths.map((item) =>
-      String(JSON.parse(fs.readFileSync(item)).image).replace('/m/', '/c/')
-    )
+    filePaths
+      .map((item) => {
+        try {
+          return String(JSON.parse(fs.readFileSync(item)).image).replace(
+            '/m/',
+            '/c/'
+          )
+        } catch (error) {}
+      })
+      .filter((item) => !!item)
   )
 )
 
