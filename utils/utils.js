@@ -2,9 +2,12 @@
  * @Author: czy0729
  * @Date: 2020-01-14 19:30:18
  * @Last Modified by: czy0729
- * @Last Modified time: 2020-06-14 15:11:12
+ * @Last Modified time: 2021-06-07 22:47:05
  */
+const path = require('path')
+const fs = require('fs')
 const cheerioRN = require('cheerio-without-node-native')
+const axios = require('axios')
 
 function safeObject(object = {}) {
   Object.keys(object).forEach((key) => {
@@ -106,9 +109,8 @@ function trim(str = '') {
   return str.replace(/^\s+|\s+$/gm, '')
 }
 
-const I64BIT_TABLE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-'.split(
-  ''
-)
+const I64BIT_TABLE =
+  'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-'.split('')
 function hash(input) {
   let hash = 5381
   let i = input.length - 1
@@ -132,6 +134,57 @@ function sleep(ms = 800) {
   return new Promise((resolve) => setTimeout(resolve, ms))
 }
 
+/**
+ * 读
+ * @param {*} path
+ */
+function read(path) {
+  return JSON.parse(fs.readFileSync(path))
+}
+
+/**
+ * 写
+ * @param {*} path
+ * @param {*} data
+ * @param {*} min
+ */
+function write(path, data, min = false) {
+  return fs.writeFileSync(
+    path,
+    min ? JSON.stringify(data) : JSON.stringify(data, null, 2)
+  )
+}
+
+async function download(url, pathData) {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const dirPath = path.dirname(pathData)
+      if (!fs.existsSync(dirPath)) {
+        const rootPath = path.join(dirPath, '..')
+        if (!fs.existsSync(rootPath)) {
+          fs.mkdirSync(rootPath)
+        }
+        fs.mkdirSync(dirPath)
+      }
+
+      const writer = fs.createWriteStream(pathData)
+      const response = await axios({
+        url,
+        method: 'GET',
+        responseType: 'stream',
+      })
+
+      response.data.pipe(writer)
+      writer.on('finish', () => {
+        resolve()
+      })
+    } catch (error) {
+      console.log('catch')
+      resolve()
+    }
+  })
+}
+
 module.exports = {
   safeObject,
   getCoverSmall,
@@ -146,4 +199,7 @@ module.exports = {
   trim,
   hash,
   sleep,
+  read,
+  write,
+  download,
 }

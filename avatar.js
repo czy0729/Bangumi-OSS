@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-17 21:10:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-02-17 20:10:31
+ * @Last Modified time: 2021-06-07 20:59:21
  */
 const fs = require('fs')
 const path = require('path')
@@ -10,55 +10,73 @@ const join = require('path').join
 const http = require('http')
 const utils = require('./utils/utils')
 
-const quality = 'l'
+const useCache = true
+const rewrite = false
 
-const filePaths = []
-function findJsonFile(path) {
-  fs.readdirSync(path).forEach((item, index) => {
-    const fPath = join(path, item)
-    const stat = fs.statSync(fPath)
-    if (stat.isDirectory() === true) {
-      findJsonFile(fPath)
-    }
-    if (stat.isFile() === true && !fPath.includes('.DS_Store')) {
-      filePaths.push(fPath)
-    }
+const quality = 'l'
+const pathCache = './data/avatar/temp.json'
+const avatars = getAvatars()
+
+const fetchs = avatars.map((item) => () => downloadAvatar(item))
+console.log('start download ...')
+
+utils.queue(fetchs, 12)
+
+function getAvatars() {
+  if (useCache) {
+    return utils.read(pathCache)
+  }
+
+  const filePaths = []
+  function findJsonFile(path) {
+    fs.readdirSync(path).forEach((item, index) => {
+      const fPath = join(path, item)
+      const stat = fs.statSync(fPath)
+      if (stat.isDirectory() === true) {
+        findJsonFile(fPath)
+      }
+      if (stat.isFile() === true && !fPath.includes('.DS_Store')) {
+        filePaths.push(fPath)
+      }
+    })
+  }
+
+  /**
+   * Topic
+   */
+  findJsonFile('../Bangumi-Rakuen/data/topic')
+  const avatarsTopic = Array.from(
+    new Set(filePaths.map((item) => JSON.parse(fs.readFileSync(item)).avatar))
+  )
+
+  /**
+   * Comment
+   */
+  findJsonFile('../Bangumi-Rakuen/data/comment')
+  const temp = []
+  filePaths.forEach((item) => {
+    try {
+      const data = JSON.parse(fs.readFileSync(item))
+      data.forEach((item) => {
+        if (item.avatar) {
+          temp.push(item.avatar)
+        }
+        item.sub.forEach((i) => {
+          if (i.avatar) {
+            temp.push(i.avatar)
+          }
+        })
+      })
+    } catch (error) {}
   })
+  const avatarsComment = Array.from(new Set(temp))
+
+  const avatars = Array.from(new Set([...avatarsTopic, ...avatarsComment]))
+  utils.write(pathCache, avatars)
+  return avatars
 }
 
-/**
- * Topic
- */
-findJsonFile('../Bangumi-Rakuen/data/topic')
-const avatarsTopic = Array.from(
-  new Set(filePaths.map((item) => JSON.parse(fs.readFileSync(item)).avatar))
-)
-
-/**
- * Comment
- */
-findJsonFile('../Bangumi-Rakuen/data/comment')
-const temp = []
-filePaths.forEach((item) => {
-  try {
-    const data = JSON.parse(fs.readFileSync(item))
-    data.forEach((item) => {
-      if (item.avatar) {
-        temp.push(item.avatar)
-      }
-      item.sub.forEach((i) => {
-        if (i.avatar) {
-          temp.push(i.avatar)
-        }
-      })
-    })
-  } catch (error) {}
-})
-const avatarsComment = Array.from(new Set(temp))
-
-const avatars = Array.from(new Set([...avatarsTopic, ...avatarsComment]))
-
-async function downloadAvatar(avatar, rewrite) {
+async function downloadAvatar(avatar) {
   const hash = utils.hash(`https:${avatar}`)
   const filePath = `./data/avatar/l/${hash
     .slice(0, 1)
@@ -68,33 +86,6 @@ async function downloadAvatar(avatar, rewrite) {
   }
 
   const src = `http:${avatar}`.replace('/m/', `/${quality}/`)
-  http
-    .get(`${src}?r=${utils.getTimestamp()}`, (req, res) => {
-      let imgData = ''
-      req.setEncoding('binary')
-      req.on('data', (chunk) => (imgData += chunk))
-      req.on('end', () => {
-        const dirPath = path.dirname(filePath)
-        if (!fs.existsSync(dirPath)) {
-          fs.mkdirSync(dirPath)
-        }
-
-        console.log(
-          `- write ${src} [${avatars.indexOf(avatar)} / ${avatars.length}]`
-        )
-        fs.writeFileSync(filePath, imgData, 'binary', (err) => {
-          if (err) console.log('- error ${avatar}')
-        })
-
-        return true
-      })
-    })
-    .on('error', (error) => {
-      return downloadAvatar(avatar, true)
-    })
+  await utils.download(`${src}?r=${utils.getTimestamp()}`, filePath)
+  console.log(src, `${avatars.indexOf(avatar)} / ${avatars.length}`)
 }
-
-const fetchs = avatars.map((item) => () => downloadAvatar(item))
-console.log('start download ...')
-
-utils.queue(fetchs, 12)
