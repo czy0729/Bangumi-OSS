@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-17 21:10:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-04-17 03:15:21
+ * @Last Modified time: 2021-06-11 03:47:29
  */
 const fs = require('fs')
 const path = require('path')
@@ -63,7 +63,7 @@ async function downloadImage(image) {
       req.setEncoding('binary')
       req.on('data', (chunk) => (imgData += chunk))
       req.on('end', () => {
-        const newFilePath = filePath.replace('/c/', /l-update/)
+        const newFilePath = filePath.replace('/c/', /l/)
         const dirPath = path.dirname(newFilePath)
         if (!fs.existsSync(dirPath)) {
           fs.mkdirSync(dirPath)
