@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-17 21:10:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-11 03:57:59
+ * @Last Modified time: 2021-06-11 04:01:06
  */
 const fs = require('fs')
 const path = require('path')
@@ -83,17 +83,18 @@ async function downloadImage(cover) {
   }
 
   const hash = utils.hash(`https:${cover}`)
-  const filePath = `./data/subject/c/${hash
+  const filePath = `./data/subject/${quality}/${hash
     .slice(0, 1)
     .toLowerCase()}/${hash}.jpg`
   if (
     !rewrite &&
-    (fs.existsSync(filePath) || fs.existsSync(filePath.replace('/c/', '/l/')))
+    (fs.existsSync(filePath) ||
+      fs.existsSync(filePath.replace(`/${quality}/`, '/c/')))
   ) {
     return true
   }
 
-  const src = `http:${cover}`.replace('/c/', '/l/')
+  const src = `http:${cover}`.replace('/c/', `/${quality}/`)
   await utils.download(`${src}?r=${utils.getTimestamp()}`, filePath)
   console.log(src, `${covers.indexOf(cover)} / ${covers.length}`)
 }
