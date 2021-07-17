@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-17 21:10:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-06-11 03:47:29
+ * @Last Modified time: 2021-07-17 00:44:43
  */
 const fs = require('fs')
 const path = require('path')
@@ -51,7 +51,7 @@ async function downloadImage(image) {
     if (
       fs.existsSync(filePath) ||
       fs.existsSync(
-        `./data/subject/l-update/${hash.slice(0, 1).toLowerCase()}/${hash}.jpg`
+        `./data/subject/l/${hash.slice(0, 1).toLowerCase()}/${hash}.jpg`
       )
     ) {
       return resolve(true)
