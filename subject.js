@@ -2,7 +2,7 @@
  * @Author: czy0729
  * @Date: 2020-01-17 21:10:52
  * @Last Modified by: czy0729
- * @Last Modified time: 2021-07-17 00:49:38
+ * @Last Modified time: 2021-11-04 10:13:16
  */
 const fs = require('fs')
 const path = require('path')
@@ -10,7 +10,7 @@ const join = require('path').join
 const http = require('http')
 const utils = require('./utils/utils')
 
-const useCache = true
+const useCache = false
 const rewrite = false
 
 const quality = 'l'
